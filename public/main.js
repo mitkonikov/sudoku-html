@@ -1,6 +1,6 @@
-const UNSELECTED = "#29cafb";
-const SELECTED = "#048bb4";
-const PUZZLE_COLOR = "#29fb88";
+const UNSELECTED = "#0d88ad";
+const SELECTED = "#09646e";
+const PUZZLE_COLOR = "#008042";
 
 let grid = [];
 let lockedCells;
@@ -49,7 +49,7 @@ let createBoard = (w, h) => {
         table.appendChild(row);
     }
 
-    document.body.appendChild(table);
+    document.getElementById('container').appendChild(table);
 }
 
 document.addEventListener('keypress', (e) => {
@@ -67,6 +67,9 @@ let draw = () => {
             if (grid[x][y] != 0) {
                 cell.innerHTML = grid[x][y];
                 cell.style.backgroundColor = PUZZLE_COLOR;
+            } else {
+                cell.innerHTML = "";
+                cell.style.backgroundColor = UNSELECTED;
             }
             y++;
         }
@@ -163,6 +166,17 @@ let solve = (x, y) => {
     }
 
     return false;
+}
+
+let emptyPuzzle = () => {
+    for (let i = 0; i < 9; i++) {
+        for (let k = 0; k < 9; k++) {
+            lockedCells[i][k] = false;
+            grid[i][k] = 0;
+        }
+    }
+
+    draw();
 }
 
 createBoard(9, 9);
