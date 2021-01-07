@@ -59,6 +59,9 @@ document.addEventListener('keypress', (e) => {
     selectedCell.innerHTML = e.keyCode - 48;
 });
 
+/**
+ * Updates the UI with the grid data
+ */
 let draw = () => {
     let table = document.getElementById('main-table');
     let x = 0, y = 0;
@@ -77,6 +80,10 @@ let draw = () => {
         x++;
     }
 }
+
+/// =================================================
+/// THIS IS WHERE THE SUDOKU SOLVING ALGORITHM STARTS
+/// =================================================
 
 /**
  * Go through the row and check if the row has that number
@@ -118,8 +125,13 @@ let checkCol = (y, n) => {
  * @param {Number} n the number to put in the cell
  */
 let checkSubGrid = (x, y, n) => {
+    // With this formula we find which are the
+    // starting coordinates of the subgrid that contains the point(x, y)
     let subGridX = Math.floor(x / 3) * 3;
     let subGridY = Math.floor(y / 3) * 3;
+    // Then, we go through the subgrid and check if there's already that number
+    // If we find the same number, it means that it's not possible to put the number
+    // in the given subgrid, thus returning false
     for (let i = subGridX; i < subGridX + 3; i++) {
         for (let k = subGridY; k < subGridY + 3; k++) {
             if (grid[i][k] == n) {
@@ -131,18 +143,14 @@ let checkSubGrid = (x, y, n) => {
     return true;
 }
 
+/**
+ * Is it possible to put there a number 'n'?
+ * @param {Number} x X coordinate
+ * @param {Number} y Y coordinate
+ * @param {Number} n Number to put there
+ */
 let possible = (x, y, n) => {
     return checkRow(x, n) && checkCol(y, n) && checkSubGrid(x, y, n);
-}
-
-let isSolved = () => {
-    for (let r = 0; r < 9; r++) {
-        for (let c = 0; c < 9; c++) {
-            if (grid[r][c] == 0) return false;
-        }
-    }
-
-    return true;
 }
 
 let solve = (x, y) => {
@@ -156,9 +164,18 @@ let solve = (x, y) => {
         y = 0;
     }
 
+    // If there's already a number there, just skip it
     if (grid[x][y] > 0) return solve(x, y + 1);
+    
+    // If it's free, we go through each possible number
     for (let n = 1; n <= 9; n++) {
         if (possible(x, y, n)) {
+            // If it's possible to put there the number,
+            // put it, and try to solve for the next square
+            // if the solve hits a dead-end it will return false
+            // and we are going to know that the solution cannot
+            // be with this number.
+
             grid[x][y] = n;
             if (solve(x, y + 1)) return true;
             grid[x][y] = 0;
@@ -168,6 +185,9 @@ let solve = (x, y) => {
     return false;
 }
 
+/**
+ * Reset the grid, lockedCells and the UI all to 0s
+ */
 let emptyPuzzle = () => {
     for (let i = 0; i < 9; i++) {
         for (let k = 0; k < 9; k++) {
@@ -179,6 +199,7 @@ let emptyPuzzle = () => {
     draw();
 }
 
+// We create a board and fetch a puzzle from the API
 createBoard(9, 9);
 fetchSudokuPuzzle().then(() => {
     draw();
