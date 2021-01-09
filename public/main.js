@@ -55,8 +55,11 @@ let createBoard = (w, h) => {
 document.addEventListener('keypress', (e) => {
     let x = selectedCell.parentNode.rowIndex;
     let y = selectedCell.cellIndex;
-    grid[x][y] = e.keyCode - 48;
-    selectedCell.innerHTML = e.keyCode - 48;
+    let number = e.keyCode - 48;
+    if (possible(x, y, number)) {
+        grid[x][y] = e.keyCode - 48;
+        selectedCell.innerHTML = e.keyCode - 48;
+    }
 });
 
 /**
@@ -153,10 +156,22 @@ let possible = (x, y, n) => {
     return checkRow(x, n) && checkCol(y, n) && checkSubGrid(x, y, n);
 }
 
-let solve = (x, y) => {
+/**
+ * Tests if the algorithm is finished
+ * @param {Number} x 
+ * @param {Number} y 
+ */
+let isFinished = (x, y) => {
     if (x == 8 && y == 9) {
         return true; // It's solved, we are at the end
     }
+
+    return false;
+}
+
+// The empty squares are 0s
+let solve = (x, y) => {
+    if (isFinished(x, y)) return true;
 
     // If y is 9, go to the next row
     if (y == 9) {
