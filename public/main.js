@@ -56,9 +56,12 @@ document.addEventListener('keypress', (e) => {
     let x = selectedCell.parentNode.rowIndex;
     let y = selectedCell.cellIndex;
     let number = e.keyCode - 48;
-    if (possible(x, y, number)) {
+    if (number > 0 && number < 10 && possible(x, y, number)) {
         grid[x][y] = e.keyCode - 48;
         selectedCell.innerHTML = e.keyCode - 48;
+    } else if (number == 0) {
+        grid[x][y] = 0;
+        selectedCell.innerHTML = "";
     }
 });
 
