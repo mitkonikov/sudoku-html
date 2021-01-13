@@ -5,14 +5,15 @@
     <title>Sudoku Game and Solver</title>
 
     <script src="main.js" defer></script>
+    <!-- <script src="ui.js" defer></script> -->
     <link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="container">
-        <div>
-            <button id="fetch" class="btn-special" onclick="fetchSudokuPuzzle().then(draw);">New puzzle</button>
-            <button id="solve" class="btn-special" onclick="solve(0, 0); draw();">Solve</button>
-            <button id="fetch" class="btn-special" onclick="emptyPuzzle();">Empty</button>
+        <div id="buttons-container">
+            <div id="fetch" class="btn-special" onclick="fetchSudokuPuzzle().then(draw);">New puzzle</div>
+            <div id="solve" class="btn-special" onclick="solve(0, 0); draw();">Solve</div>
+            <div id="fetch" class="btn-special" onclick="emptyPuzzle();">Empty</div>
         </div>
     </div>
 </body>

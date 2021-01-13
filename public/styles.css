@@ -29,6 +29,8 @@ td {
 td {
     width: 1.5em;
     height: 1.5em;
+    max-width: calc(100% / 9);
+    max-height: calc(100vw / 9);
     text-align: center;
     justify-content: center;
     cursor: pointer;
@@ -55,9 +57,21 @@ td:last-child {
 }
 
 .btn-special {
-    font-size: 2em;
+    background-color: #383838;
+    color: #fff;
+    font-size: 1.5em;
+    font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
     padding: 0.3em 1em;
-    border: 1px solid #000;
-    margin-bottom: 1em;
+    margin: 0.2em;
     cursor: pointer;
+    text-align: center;
+    justify-content: center;
+}
+
+#buttons-container {
+    display: flex;
+}
+
+.btn-special:hover {
+    background-color: #1f1f1f;
 }
