@@ -53,17 +53,24 @@ let createBoard = (w, h) => {
 }
 
 document.addEventListener('keypress', (e) => {
+    setNumber(e.keyCode - 48);
+});
+
+/**
+ * It sets a specific number in the selected cell
+ * @param {Number} number Number to set
+ */
+let setNumber = (number) => {
     let x = selectedCell.parentNode.rowIndex;
     let y = selectedCell.cellIndex;
-    let number = e.keyCode - 48;
     if (number > 0 && number < 10 && possible(x, y, number)) {
-        grid[x][y] = e.keyCode - 48;
-        selectedCell.innerHTML = e.keyCode - 48;
+        grid[x][y] = number;
+        selectedCell.innerHTML = number;
     } else if (number == 0) {
         grid[x][y] = 0;
         selectedCell.innerHTML = "";
     }
-});
+}
 
 /**
  * Updates the UI with the grid data
